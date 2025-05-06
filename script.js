@@ -25,7 +25,7 @@ function draw(){
       if (is_going_right) {
         doodlerX += 5;
       }
-        // Keep doodler on canvas
+        // here I want to Keep doodler on canvas
   doodlerX = constrain(doodlerX, 0, width - 80);
    image(doodler_img,doodlerX,doodlerY,60,60);
 }
