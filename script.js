@@ -27,7 +27,7 @@ function setup() {
     doodlerX=400;
     doodlerY=height-100;
 
-    for (let i=1; i<=5;i++)
+    for (let i=0; i<=5;i++)
 platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to generate multiple platforms here
    
   }
@@ -48,6 +48,12 @@ function draw(){
     image(board_png,0,0,width,height)
     moveDoodler();
 
+  //calling my platforms to show up
+  for(let platform of platforms){
+        platform.show();
+   }
+
+   
     if(is_jumping){
       velocity=velocity+gravity;
       doodlerY=doodlerY+velocity;  
@@ -59,10 +65,6 @@ function draw(){
         is_jumping=false;
     }
 
-    //calling my platforms to show up
-    for(let platform of platforms){
-      platform.show();
-    }
  //  here I want to keep doodler on canvas
   doodlerX = constrain(doodlerX, 0, width - 80);
   doodlerY = constrain(doodlerY, 0, height - 80);
