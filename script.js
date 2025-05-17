@@ -53,7 +53,7 @@ function draw(){
         platform.show();
    }
 
-   
+
     if(is_jumping){
       velocity=velocity+gravity;
       doodlerY=doodlerY+velocity;  
@@ -95,7 +95,7 @@ function draw(){
         is_going_left = false;
       }
 
-
+      // move doodle jump function
     }
     function moveDoodler() {
       if (is_going_left) {
