@@ -53,7 +53,26 @@ function draw(){
         platform.show();
    }
 
+  // ✅ Collision detectionstars here
+  let doodlerBottom = doodlerY + 60;
+  let platformTop = platform.y;
+  let platformBottom = platform.y + 20;
+  let doodlerCenterX = doodlerX + 30;
 
+  if (
+    doodlerBottom >= platformTop &&     // Doodler is touching top of platform
+    doodlerBottom <= platformBottom &&  // Not too far below
+    doodlerCenterX >= platform.x &&     // X position overlaps
+    doodlerCenterX <= platform.x + 85 &&
+    velocity > 0                        // Only when falling
+  ) {
+    is_jumping = true;
+    velocity = -15;  // Bounce up
+  }
+}
+
+
+// collision ends here
     if(is_jumping){
       velocity=velocity+gravity;
       doodlerY=doodlerY+velocity;  
@@ -70,7 +89,7 @@ function draw(){
   doodlerY = constrain(doodlerY, 0, height - 80);
    image(doodler_img,doodlerX,doodlerY,60,60);
    
-  }
+  
 
 
     // what happens when I press the key here
