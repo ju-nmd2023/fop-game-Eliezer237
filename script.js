@@ -5,12 +5,19 @@ let is_going_right = false;
 let doodler_img;
 let platform_img;
 let board_png;
-let platforms=[];
-numberfPlatforms=5;
+const platforms=[];
+ const numberfPlatforms=5;
 let is_jumping=false;
 let velocity=0;
 let gravity=0.9;
 let ground=300;
+const platformWidth=85;
+const platformHeight=20;
+const doodlerWidth=60;
+const doodlerHeight=60;
+
+
+
 
 
 // loading the images
@@ -29,6 +36,16 @@ function setup() {
 
     for (let i=0; i<=5;i++)
 platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to generate multiple platforms here
+
+
+//placing doodler on the top of the platform wen starting the game
+let startPlatform=platforms[4];
+doodlerX= startPlatform.x+platformWidth/2-doodlerWidth/2;
+doodlerY=startPlatform.y-doodlerHeight;
+
+
+velocity=0;
+is_jumping=false;
    
   }
 
@@ -43,36 +60,40 @@ platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to generate 
         image(platform_img,this.x,this.y,85,20);
       }
   }
-//drawinng my beatiful doodler
+ //drawing my beatiful doodler
 function draw(){
     image(board_png,0,0,width,height)
     moveDoodler();
 
+  // doodler bottom &&right variables
+  
+    let doodlerBottom=doodlerY+doodlerHeight;
+    let doodlerRight=doodlerX+doodlerWidth;
+
   //calling my platforms to show up
+
   for(let platform of platforms){
-        platform.show();
+    platform.show();
+
+  //  I want to make variables and check the collision
+  let platformRight=platform.x+platformWidth;
+      
+  if(
+    doodlerBottom>platform.y&&
+    doodlerBottom<=platform.y+platformHeight&&
+    doodlerRight>platform.x&&
+    doodlerX<=platformRight&& 
+    velocity>0
+    )
+
+    {
+      is_jumping=true;
+      velocity=-15;
+    }
+
+
    }
 
-  // ✅ Collision detectionstars here
-  let doodlerBottom = doodlerY + 60;
-  let platformTop = platform.y;
-  let platformBottom = platform.y + 20;
-  let doodlerCenterX = doodlerX + 30;
-
-  if (
-    doodlerBottom >= platformTop &&     // Doodler is touching top of platform
-    doodlerBottom <= platformBottom &&  // Not too far below
-    doodlerCenterX >= platform.x &&     // X position overlaps
-    doodlerCenterX <= platform.x + 85 &&
-    velocity > 0                        // Only when falling
-  ) {
-    is_jumping = true;
-    velocity = -15;  // Bounce up
-  }
-}
-
-
-// collision ends here
     if(is_jumping){
       velocity=velocity+gravity;
       doodlerY=doodlerY+velocity;  
@@ -88,7 +109,7 @@ function draw(){
   doodlerX = constrain(doodlerX, 0, width - 80);
   doodlerY = constrain(doodlerY, 0, height - 80);
    image(doodler_img,doodlerX,doodlerY,60,60);
-   
+  }
   
 
 
