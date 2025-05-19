@@ -106,8 +106,8 @@ function draw(){
     }
 
  //  here I want to keep doodler on canvas
-  doodlerX = constrain(doodlerX, 0, width - 80);
-  doodlerY = constrain(doodlerY, 0, height - 80);
+  doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
+  doodlerY = constrain(doodlerY, 0, height - doodlerHeight);
    image(doodler_img,doodlerX,doodlerY,60,60);
   }
   
