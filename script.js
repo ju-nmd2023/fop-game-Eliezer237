@@ -16,9 +16,7 @@ const platformWidth=85;
 const platformHeight=20;
 const doodlerWidth=60;
 const doodlerHeight=60;
-
-
-
+let gameOver=false;
 
 
 // loading the images
@@ -77,6 +75,7 @@ is_jumping=false;
     }
   
  //drawing my beatiful doodler
+
    function draw(){
     image(board_png,0,0,width,height)
     moveDoodler();
@@ -121,6 +120,10 @@ is_jumping=false;
         doodlerY=ground;
         is_jumping=false;
     }
+ //gameover
+    if (doodlerY>=height){
+      gameOver=true;
+    }
 
  //  here I want to keep doodler on canvas
   doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
@@ -132,13 +135,19 @@ is_jumping=false;
    fill(0) 
    textSize(20);
    text("score:"+score,20,30);
+
+   if(gameOver){
+    background(0);
+   fill(255,0,0);
+   textSize(36);
+   textAlign(CENTER,CENTER);
+   text("Game Over",width/2,height/2-30);
+   textSize(20);
+   text("score:"+score,width/2,height/2+10);
+   noLoop();
+   return;
+   }
   }
-
-
-
-
-  
-
 
     // what happens when I press the key here
     function keyPressed(e) {
