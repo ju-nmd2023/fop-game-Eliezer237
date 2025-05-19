@@ -5,6 +5,7 @@ let is_going_right = false;
 let doodler_img;
 let platform_img;
 let board_png;
+let score=0;
 const platforms=[];
  const numberfPlatforms=5;
 let is_jumping=false;
@@ -59,9 +60,24 @@ is_jumping=false;
       show(){
         image(platform_img,this.x,this.y,85,20);
       }
-  }
+
+//function updates
+      update(){
+        if (is_jumping){
+          this.y +=5;
+        }
+      
+          if(this.y>height)  {
+          this.y=0;
+          this.x=Math.round(Math.random()*(width-85));
+          score++;
+        }
+      
+      }
+    }
+  
  //drawing my beatiful doodler
-function draw(){
+   function draw(){
     image(board_png,0,0,width,height)
     moveDoodler();
 
@@ -74,6 +90,7 @@ function draw(){
 
   for(let platform of platforms){
     platform.show();
+    platform. update();
 
   //  I want to make variables and check the collision
   let platformRight=platform.x+platformWidth;
@@ -109,7 +126,17 @@ function draw(){
   doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
   doodlerY = constrain(doodlerY, 0, height - doodlerHeight);
    image(doodler_img,doodlerX,doodlerY,60,60);
+
+
+   //score updates
+   fill(0) 
+   textSize(20);
+   text("score:"+score,20,30);
   }
+
+
+
+
   
 
 
