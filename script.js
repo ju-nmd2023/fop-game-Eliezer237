@@ -74,7 +74,7 @@ is_jumping=false;
       }
     }
   
- //drawing my beatiful doodler
+ //drawing my beautiful doodler
 
    function draw(){
     image(board_png,0,0,width,height)
@@ -89,7 +89,7 @@ is_jumping=false;
 
   for(let platform of platforms){
     platform.show();
-    platform. update();
+    platform.update();
 
   //  I want to make variables and check the collision
   let platformRight=platform.x+platformWidth;
@@ -119,6 +119,7 @@ is_jumping=false;
         velocity=0;
         doodlerY=ground;
         is_jumping=false;
+        gameOver=true;
     }
  //gameover
     if (doodlerY>=height){
