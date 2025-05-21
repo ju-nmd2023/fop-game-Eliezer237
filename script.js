@@ -17,6 +17,7 @@ const platformHeight=20;
 const doodlerWidth=60;
 const doodlerHeight=60;
 let gameOver=false;
+let gameState=false;
 
 
 // loading the images
@@ -78,7 +79,13 @@ is_jumping=false;
 
    function draw(){
     image(board_png,0,0,width,height)
+    if(!gameState){
+      startScreen();
+      return;
+    }
+  
     moveDoodler();
+  
 
   // doodler bottom &&right variables
   
@@ -148,8 +155,31 @@ is_jumping=false;
    noLoop();
    return;
    }
+
   }
 
+
+    //the starting screen
+   function startScreen(){
+    background(255,0,255);
+    fill(255);
+    rect(257,195,100,45);
+    fill(0)
+    textSize(20);
+    textAlign(CENTER,CENTER);
+    text("Start",280,189,60,60);
+   }
+
+   function mousePressed(){
+    if(!gameState&&
+      mouseX>257 && mouseX<357 && mouseY>180 && mouseY<240){
+        gameState=true;
+        loop();
+      }
+    
+   }
+
+  
     // what happens when I press the key here
     function keyPressed(e) {
       if (e.code === "ArrowRight" || e.code === "KeyD") {
