@@ -1,5 +1,5 @@
 
-let doodlerX,doodlerY;
+let doodler;
 let isGoingLeft = false;
 let isGoingRight = false;
 let doodlerImg;
@@ -14,8 +14,6 @@ let gravity=0.9;
 let ground=300;
 const platformWidth=85;
 const platformHeight=20;
-const doodlerWidth=60;
-const doodlerHeight=60;
 let gameOver=false;
 let gameState=false;
 
@@ -30,24 +28,40 @@ function preload() {
   
 // function setup 
 function setup() {
-    createCanvas(600,400);
-    doodlerX=400;
-    doodlerY=height-100;
+  createCanvas(600,400);
+  doodler=new Doodler(400,height-100,doodlerImg)
 
-    for (let i=0; i<=5;i++)
+    for (let i=0; i<numberOfPlatforms;i++)
 platforms.push(new Platform(i*(height/numberOfPlatforms))); //I want to generate multiple platforms here
 
 
 //placing doodler on the top of the platform wen starting the game
 let startPlatform=platforms[4];
-doodlerX= startPlatform.x+platformWidth/2-doodlerWidth/2;
-doodlerY=startPlatform.y-doodlerHeight;
+doodler.x= startPlatform.x+platformWidth/2-doodler.width/2;
+doodler.y=startPlatform.y-doodler.height;
 
 
 velocity=0;
 isJumping=false;
    
   }
+
+
+
+//doodler class 
+  class Doodler{
+    constructor(x,y,img){
+      this.x=x;
+      this.y=y;
+      this.width=60;
+      this.height=60;
+      this.image=img;
+    }
+    show(){
+      image(this.image,this.x,this.y,this.width,this.height);
+    }
+  }
+
 
 //class
   class Platform{
@@ -89,8 +103,8 @@ isJumping=false;
 
   // doodler bottom &&right variables
   
-    let doodlerBottom=doodlerY+doodlerHeight;
-    let doodlerRight=doodlerX+doodlerWidth;
+    let doodlerBottom=doodler.y+doodler.height;
+    let doodlerRight=doodler.x+doodler.width;
 
   //calling my platforms to show up
 
@@ -105,7 +119,7 @@ isJumping=false;
     doodlerBottom>platform.y&&
     doodlerBottom<=platform.y+platformHeight&&
     doodlerRight>platform.x&&
-    doodlerX<=platformRight&& 
+    doodler.x<=platformRight&& 
     velocity>0
     )
 
@@ -119,12 +133,12 @@ isJumping=false;
 
     if(isJumping){
       velocity=velocity+gravity;
-      doodlerY=doodlerY+velocity;  
+      doodler.y=doodler.y+velocity;  
     }
 
-    if(doodlerY>=ground){
+    if(doodler.y>=ground){
         velocity=0;
-        doodlerY=ground;
+        doodler.y=ground;
         isJumping=false;
         gameOver=true;
        
@@ -132,9 +146,9 @@ isJumping=false;
   //   Got this idea from chatgpt
       
  //  here I want to keep doodler on canvas
-  doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
-  doodlerY = constrain(doodlerY, 0, height - doodlerHeight);
-   image(doodlerImg,doodlerX,doodlerY,60,60);
+  doodler.x = constrain(doodler.x, 0, width - doodler.width);
+  doodler.y = constrain(doodler.y, 0, height - doodler.height);
+
 
 
    //score updates
@@ -155,6 +169,8 @@ isJumping=false;
    noLoop();
    return;
    }
+
+   doodler.show();
 
   }
 
@@ -209,10 +225,10 @@ isJumping=false;
     }
     function moveDoodler() {
       if (isGoingLeft) {
-        doodlerX -= 5;
+        doodler.x -= 5;
       }
       if (isGoingRight) {
-        doodlerX += 5;
+        doodler.x += 5;
       }
     }
         
@@ -234,11 +250,11 @@ isJumping=false;
       isJumping=false;
 
       platforms.length=0;
-      for (let i=0; i<=5;i++)
+      for (let i=0; i<numberOfPlatforms;i++)
       platforms.push(new Platform(i*(height/numberOfPlatforms))); //I want to regenerate multiple platforms here
        //doodler position on top of a platform
       let startPlatform=platforms[4];
-      doodlerX= startPlatform.x+platformWidth/2-doodlerWidth/2;
-      doodlerY=startPlatform.y-doodlerHeight;
+      doodler.x= startPlatform.x+platformWidth/2-doodler.width/2;
+      doodler.y=startPlatform.y-doodler.height;
       loop();
     }
