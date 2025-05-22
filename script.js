@@ -127,12 +127,10 @@ is_jumping=false;
         doodlerY=ground;
         is_jumping=false;
         gameOver=true;
+       
     }
- //gameover
-    if (doodlerY>=height){
-      gameOver=true;
-    }
-
+  //   Got this idea from chatgpt
+      
  //  here I want to keep doodler on canvas
   doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
   doodlerY = constrain(doodlerY, 0, height - doodlerHeight);
@@ -142,8 +140,9 @@ is_jumping=false;
    //score updates
    fill(0) 
    textSize(20);
-   text("score:"+score,20,30);
-
+   text("Score:"+score,40,30);
+   
+   //gameover
    if(gameOver){
     background(0);
    fill(255,0,0);
@@ -152,6 +151,7 @@ is_jumping=false;
    text("Game Over",width/2,height/2-30);
    textSize(20);
    text("score:"+score,width/2,height/2+10);
+   text("Click anywhere to restart ",width/2,height/2+50)
    noLoop();
    return;
    }
@@ -175,6 +175,9 @@ is_jumping=false;
       mouseX>257 && mouseX<357 && mouseY>180 && mouseY<240){
         gameState=true;
         loop();
+      }
+      if (gameOver){
+        resetGame();
       }
     
    }
@@ -220,4 +223,22 @@ is_jumping=false;
         is_jumping=true;
      }
        
+    }
+
+    //game reset
+    
+    function resetGame(){
+      score=0;
+      velocity=0;
+      gameOver=false;
+      is_jumping=false;
+
+      platforms.length=0;
+      for (let i=0; i<=5;i++)
+      platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to regenerate multiple platforms here
+       //doodler position on top of a platform
+      let startPlatform=platforms[4];
+      doodlerX= startPlatform.x+platformWidth/2-doodlerWidth/2;
+      doodlerY=startPlatform.y-doodlerHeight;
+      loop();
     }
