@@ -4,6 +4,7 @@ let isGoingLeft = false;
 let isGoingRight = false;
 let doodlerImg;
 let platformImg;
+let brokenPng;
 let boardPng;
 let score=0;
 const platforms=[];
@@ -16,6 +17,7 @@ const platformWidth=85;
 const platformHeight=20;
 let gameOver=false;
 let gameState=false;
+let brokenPlatformImg; 
 
 
 // loading the images
@@ -23,6 +25,7 @@ function preload() {
     doodlerImg = loadImage('./images/business left look.png');
     platformImg=loadImage("./images/platform.png")
     boardPng=loadImage("./images/board.png")
+    brokenPng=loadImage("./images/broken.png")
 
   }
   
@@ -68,26 +71,62 @@ isJumping=false;
       constructor(y){
         this.x=Math.round(Math.random()*(width-85));
         this.y=y;
+        //randomize platform types
+        const types=["normal","moving","breakable"]
+        this.type=random(types);
+        this.isBroken=false;
+
+        if(this.type==="moving"){
+          this.velocity=2;
+          
+        } else{
+          this.velocity=0;
+        }
       }
 
       show(){
+        if(this.isBroken) return;
+        if (this.type==="breakable"){
+          image(brokenPng,this.x,this.y,85,20);
+        }else{
         image(platformImg,this.x,this.y,85,20);
       }
-
+    }
+ 
 //function updates
       update(){
+        if(this.isBroken) return;
         if (isJumping){
           this.y +=5;
+        }
+
+        if(this.type==="moving"){
+        this.x +=this.velocity;
+        if(this.x<=0||this.x>=width-platformWidth){
+         this.velocity*=-1;
+        }
         }
       
           if(this.y>height)  {
           this.y=0;
           this.x=Math.round(Math.random()*(width-85));
-          score++;
+          this.type=random(["normal","moving","breakable"]);
+          this.isBroken=false;
+          if(this.type==="moving"){
+            this.velocity=2;
+            
+          } else{
+            this.velocity=0;
+          }
         }
       
+        
       }
+    
     }
+      
+      
+    
   
  //drawing my beautiful doodler
 
@@ -120,12 +159,17 @@ isJumping=false;
     doodlerBottom<=platform.y+platformHeight&&
     doodlerRight>platform.x&&
     doodler.x<=platformRight&& 
-    velocity>0
-    )
+    velocity>0 &&!platform.isBroken
+    )  {
+  
 
-    {
+    if(platform.type==="breakable"){
+      platform.isBroken=true;
+    } else{
       isJumping=true;
       velocity=-15;
+      score++;
+    }
     }
 
 
