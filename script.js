@@ -1,14 +1,14 @@
 
 let doodlerX,doodlerY;
-let is_going_left = false;
-let is_going_right = false;
-let doodler_img;
-let platform_img;
-let board_png;
+let isGoingLeft = false;
+let isGoingRight = false;
+let doodlerImg;
+let platformImg;
+let boardPng;
 let score=0;
 const platforms=[];
- const numberfPlatforms=5;
-let is_jumping=false;
+ const numberOfPlatforms=5;
+let isJumping=false;
 let velocity=0;
 let gravity=0.9;
 let ground=300;
@@ -22,9 +22,9 @@ let gameState=false;
 
 // loading the images
 function preload() { 
-    doodler_img = loadImage('./images/business left look.png');
-    platform_img=loadImage("./images/platform.png")
-    board_png=loadImage("./images/board.png")
+    doodlerImg = loadImage('./images/business left look.png');
+    platformImg=loadImage("./images/platform.png")
+    boardPng=loadImage("./images/board.png")
 
   }
   
@@ -35,7 +35,7 @@ function setup() {
     doodlerY=height-100;
 
     for (let i=0; i<=5;i++)
-platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to generate multiple platforms here
+platforms.push(new Platform(i*(height/numberOfPlatforms))); //I want to generate multiple platforms here
 
 
 //placing doodler on the top of the platform wen starting the game
@@ -45,7 +45,7 @@ doodlerY=startPlatform.y-doodlerHeight;
 
 
 velocity=0;
-is_jumping=false;
+isJumping=false;
    
   }
 
@@ -57,12 +57,12 @@ is_jumping=false;
       }
 
       show(){
-        image(platform_img,this.x,this.y,85,20);
+        image(platformImg,this.x,this.y,85,20);
       }
 
 //function updates
       update(){
-        if (is_jumping){
+        if (isJumping){
           this.y +=5;
         }
       
@@ -78,7 +78,7 @@ is_jumping=false;
  //drawing my beautiful doodler
 
    function draw(){
-    image(board_png,0,0,width,height)
+    image(boardPng,0,0,width,height)
     if(!gameState){
       startScreen();
       return;
@@ -110,14 +110,14 @@ is_jumping=false;
     )
 
     {
-      is_jumping=true;
+      isJumping=true;
       velocity=-15;
     }
 
 
    }
 
-    if(is_jumping){
+    if(isJumping){
       velocity=velocity+gravity;
       doodlerY=doodlerY+velocity;  
     }
@@ -125,7 +125,7 @@ is_jumping=false;
     if(doodlerY>=ground){
         velocity=0;
         doodlerY=ground;
-        is_jumping=false;
+        isJumping=false;
         gameOver=true;
        
     }
@@ -134,7 +134,7 @@ is_jumping=false;
  //  here I want to keep doodler on canvas
   doodlerX = constrain(doodlerX, 0, width - doodlerWidth);
   doodlerY = constrain(doodlerY, 0, height - doodlerHeight);
-   image(doodler_img,doodlerX,doodlerY,60,60);
+   image(doodlerImg,doodlerX,doodlerY,60,60);
 
 
    //score updates
@@ -186,10 +186,10 @@ is_jumping=false;
     // what happens when I press the key here
     function keyPressed(e) {
       if (e.code === "ArrowRight" || e.code === "KeyD") {
-        is_going_right = true;
+        isGoingRight = true;
       }
       if (e.code === "ArrowLeft" || e.code === "KeyA") {
-        is_going_left = true;
+        isGoingLeft= true;
       }
       if (e.code === "ArrowUp") {
         jump();
@@ -199,28 +199,28 @@ is_jumping=false;
         // what happens when I release the key here
     function keyReleased(e) {
       if (e.code === "ArrowRight" || e.code === "KeyD") {
-        is_going_right = false;
+        isGoingRight = false;
       }
       if (e.code === "ArrowLeft" || e.code === "KeyA") {
-        is_going_left = false;
+        isGoingLeft = false;
       }
 
       // move doodle jump function
     }
     function moveDoodler() {
-      if (is_going_left) {
+      if (isGoingLeft) {
         doodlerX -= 5;
       }
-      if (is_going_right) {
+      if (isGoingRight) {
         doodlerX += 5;
       }
     }
         
   function jump(){
   
-     if (!is_jumping){
+     if (!isJumping){
         velocity=-15;
-        is_jumping=true;
+        isJumping=true;
      }
        
     }
@@ -231,11 +231,11 @@ is_jumping=false;
       score=0;
       velocity=0;
       gameOver=false;
-      is_jumping=false;
+      isJumping=false;
 
       platforms.length=0;
       for (let i=0; i<=5;i++)
-      platforms.push(new Platform(i*(height/numberfPlatforms))); //I want to regenerate multiple platforms here
+      platforms.push(new Platform(i*(height/numberOfPlatforms))); //I want to regenerate multiple platforms here
        //doodler position on top of a platform
       let startPlatform=platforms[4];
       doodlerX= startPlatform.x+platformWidth/2-doodlerWidth/2;
